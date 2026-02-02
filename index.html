@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine Chaos 💀💘</title>
+
+<style>
+body{
+  font-family:'Comic Sans MS',sans-serif;
+  background:#ffe6f0;
+  text-align:center;
+  overflow:hidden;
+  padding:30px;
+}
+
+h1,h2{color:#ff3366}
+
+button{
+  padding:15px 40px;
+  font-size:20px;
+  border:none;
+  border-radius:15px;
+  cursor:pointer;
+  margin:10px;
+}
+
+.yes{background:#ff3366;color:white;transition:transform 0.3s}
+.no{background:#999;color:white;position:relative}
+
+.heart{
+  position:absolute;
+  font-size:24px;
+  animation:float 4s linear infinite;
+}
+
+@keyframes float{
+  0%{transform:translateY(0);opacity:1}
+  100%{transform:translateY(-800px);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<div id="app"></div>
+
+<audio id="song">
+  <source src="downloadfile.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let stage = 1;
+let noClicks = 0;
+let yesScale = 1;
+const app = document.getElementById("app");
+
+function render(){
+  if(stage===1){
+    app.innerHTML=`
+      <h1>i was thinking a lot.. and i may have coded my feelings..</h1>
+      <h2>you wanna know?</h2>
+      <button class="yes">YES</button>
+      <button class="no" onclick="next()">NO</button>
+    `;
+  }
+
+  if(stage===2){
+    app.innerHTML=`
+      <h2>will you be my valentine?</h2>
+      <button class="yes">YES</button>
+      <button class="no" onclick="next()">NO</button>
+    `;
+  }
+
+  if(stage===3){
+    app.innerHTML=`
+      <h2>acha try again 💀🙏🏼</h2>
+      <h2>will you be my valentine?</h2>
+      <button class="yes">YES</button>
+      <button class="no" id="runNo">NO</button>
+    `;
+    const noBtn = document.getElementById("runNo");
+    noBtn.addEventListener("mouseover", moveNo);
+    noBtn.addEventListener("touchstart", moveNo);
+    noBtn.addEventListener("click", next);
+  }
+
+  if(stage===4){
+    app.innerHTML=`
+      <h2>LMAO HOW DARE YOU?</h2>
+      <h2>TRY AGAIN 🙂🔪</h2>
+      <h2>will you be my valentine?</h2>
+      <button class="yes" id="yesGrow">YES</button>
+      <button class="no" onclick="growYes()">NO</button>
+    `;
+  }
+
+  if(stage===5){
+    finalScene();
+  }
+}
+
+function next(){
+  stage++;
+  render();
+}
+
+function moveNo(e){
+  e.target.style.left = Math.random()*(window.innerWidth-120)+"px";
+  e.target.style.top = Math.random()*(window.innerHeight-120)+"px";
+}
+
+function growYes(){
+  noClicks++;
+  yesScale += 0.7;
+  const yes = document.getElementById("yesGrow");
+  yes.style.transform = `scale(${yesScale})`;
+
+  if(noClicks >= 3){
+    yes.onclick = finalScene;
+  }
+}
+
+function finalScene(){
+  app.innerHTML = `
+    <h1>OKAY OKAY 😌💖</h1>
+    <h2>Will you be my Valentine?</h2>
+  `;
+
+  document.getElementById("song").play();
+
+  for(let i=0;i<30;i++){
+    let heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random()*window.innerWidth+"px";
+    heart.style.bottom = "0px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),4000);
+  }
+}
+
+render();
+</script>
+
+</body>
+</html>
